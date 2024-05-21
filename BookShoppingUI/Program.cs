@@ -1,3 +1,4 @@
+using BookShopping.Business.services.ConvertFiles;
 using BookShoppingUI.Data;
 using BookShoppingUI.Repository.BookRepo;
 using BookShoppingUI.services.BookServices;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookShoppingUI
 {
-	public class Program
+    public class Program
 	{
 		public static async Task Main(string[] args)
 		{
@@ -30,6 +31,7 @@ namespace BookShoppingUI
 
 			builder.Services.AddScoped<IBookService,BookService>();
             builder.Services.AddScoped<IBookRepo,BookRepository>();
+			builder.Services.AddScoped<IConvertFile, ConvertFileToString>();
 
             builder.Services.AddControllersWithViews();
 

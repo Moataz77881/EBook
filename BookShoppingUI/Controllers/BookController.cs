@@ -31,5 +31,18 @@ namespace BookShoppingUI.Controllers
             
             return Ok(res);
         }
+        [HttpPut("/updatebook")]
+        public IActionResult UpdateBook(int id, BookDto book) 
+        {
+            var res = bookService.UpdateBook(id, book);
+            return Ok(res);
+        }
+        [HttpGet("/deletebook")]
+        public IActionResult Removebook(int id) 
+        {
+            bookService.RemoveBook(id);
+            return RedirectToAction("Index", "Home"); ;
+
+        }
     }
 }

@@ -7,5 +7,8 @@ namespace BookShoppingUI.services.BookServices
     {
         public BookDto CreateBook(BookDto bookDto);
         public List<BookReceivedDto> GetBook(int? id, string? sTem);
+        public BookDto UpdateBook(int id, BookDto book);
+        public BookDto RemoveBook(int id);
+
     }
 }

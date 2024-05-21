@@ -5,6 +5,7 @@ namespace BookShoppingUI.DTOs.BookDTOs
 {
     public class BookReceivedDto
     {
+        public int id { get; set; }
         public string BookName { get; set; }
         public string AuthorName { get; set; }
         public string? Image { get; set; }

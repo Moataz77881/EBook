@@ -57,6 +57,10 @@
 
             </p>
             <a href="#" class="btn btn-primary">Add to cart</a>
+
+                <a asp-controller="Book" asp-action="Removebook" asp-route-id="@book.id" class="btn float-end btn-danger"><i class="bi bi-trash-fill"></i> </a>
+            <button class="btn float-end"><i class="bi bi-pencil-fill"></i></button>
+
         </div>
     </div>
 }

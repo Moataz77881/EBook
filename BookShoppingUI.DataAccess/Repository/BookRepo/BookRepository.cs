@@ -36,5 +36,33 @@ namespace BookShoppingUI.Repository.BookRepo
             return book;
                 
         }
+
+        public Book? RemoveBook(int BookId)
+        {
+            var book = context.Book.FirstOrDefault(x => x.Id == BookId);
+            if (book is not null) 
+            {
+                context.Book.Remove(book);
+                context.SaveChanges();
+            }
+            return book;
+        }
+
+        public Book? UpdateBook(int BookId, Book book)
+        {
+            var Model = context.Book.FirstOrDefault(x=>x.Id == BookId);
+            if (Model is not null) 
+            {
+                Model.BookName = book.BookName;
+                Model.AuthorName = book.AuthorName;
+                Model.Price = book.Price;
+                Model.GenreId = book.GenreId;
+                Model.Image = book.Image;
+                context.SaveChanges();
+                return Model;
+            }
+            return null;
+
+        }
     }
 }

@@ -1,32 +1,33 @@
-﻿using BookShoppingUI.DTOs;
+﻿using BookShopping.Business;
+using BookShopping.Business.services.ConvertFiles;
+using BookShoppingUI.DTOs;
 using BookShoppingUI.DTOs.BookDTOs;
 using BookShoppingUI.Models;
 using BookShoppingUI.Repository.BookRepo;
 using Microsoft.AspNetCore.Hosting;
+using System.Xml.Linq;
 
 namespace BookShoppingUI.services.BookServices
 {
     public class BookService : IBookService
     {
+        private string? ImagePath = null;
         private readonly IBookRepo bookRepo;
-        private readonly IWebHostEnvironment environment;
+        private readonly IConvertFile convert;
 
-        public BookService(IBookRepo bookRepo, IWebHostEnvironment environment)
+        public BookService(IBookRepo bookRepo,IConvertFile convert)
         {
             this.bookRepo = bookRepo;
-            this.environment = environment;
+            this.convert = convert;
         }
+
         public  BookDto CreateBook(BookDto bookDto)
         {
-            string? ImagePath = null;
+
+
             if (bookDto.UploadImage is not null) 
             {
-                ImagePath = environment.WebRootPath + "\\Images\\" + bookDto.UploadImage.FileName;
-
-                using (FileStream stream = System.IO.File.Create(ImagePath))
-                {
-                    bookDto.UploadImage.CopyTo(stream);
-                }
+                ImagePath = convert.convert(bookDto.UploadImage);   
             }
 
             //map book model to book dto
@@ -74,6 +75,7 @@ namespace BookShoppingUI.services.BookServices
                 dto.Add(
                     new BookReceivedDto
                     {
+                        id=element.Id,
                         BookName = element.BookName,
                         Image = ImageName,
                         Price = element.Price,
@@ -86,6 +88,51 @@ namespace BookShoppingUI.services.BookServices
                     );
             }
             return dto;
+        }
+
+        public BookDto UpdateBook(int id, BookDto book)
+        {
+
+            //map book dtoto book model
+            if (book.UploadImage is not null) 
+            {
+
+                ImagePath = convert.convert(book.UploadImage);
+
+            }
+            var model = new Book
+            {
+                BookName = book.BookName,
+                Price = book.Price,
+                AuthorName = book.AuthorName,
+                GenreId = book.GenreId,
+                Image = ImagePath
+            };
+            var bookUpdated = bookRepo.UpdateBook(id, model);
+            //map model to BookDto
+
+            var dto = new BookDto
+            {
+                BookName = bookUpdated.BookName,
+                Price = bookUpdated.Price,
+                AuthorName = bookUpdated.AuthorName,
+
+            };
+            return dto;
+        }
+
+        public BookDto RemoveBook(int id)
+        {
+            var bookRemoved = bookRepo.RemoveBook(id);
+            var dto = new BookDto
+            {
+                AuthorName = bookRemoved.AuthorName,
+                BookName = bookRemoved.AuthorName,
+                GenreId= bookRemoved.GenreId,
+                Price= bookRemoved.Price,
+            };
+            return dto;
+
         }
     }
 }
