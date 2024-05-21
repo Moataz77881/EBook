@@ -1,5 +1,6 @@
 ﻿using BookShoppingUI.Enums;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BookShoppingUI.Data
 {

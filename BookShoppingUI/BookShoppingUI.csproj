@@ -21,4 +21,10 @@
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BookShopping.Business\BookShopping.Business.csproj" />
+    <ProjectReference Include="..\BookShoppingUI.DataAccess\BookShoppingUI.DataAccess.csproj" />
+    <ProjectReference Include="..\BookShoppingUI.Data\BookShoppingUI.Data.csproj" />
+  </ItemGroup>
+
 </Project>

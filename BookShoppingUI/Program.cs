@@ -3,7 +3,6 @@ using BookShoppingUI.Repository.BookRepo;
 using BookShoppingUI.services.BookServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace BookShoppingUI
 {
