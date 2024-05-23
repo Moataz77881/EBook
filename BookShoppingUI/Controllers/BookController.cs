@@ -1,4 +1,5 @@
-﻿using BookShoppingUI.DTOs;
+﻿using BookShoppingUI.Data.DTOs.BookDTOs;
+using BookShoppingUI.DTOs;
 using BookShoppingUI.services.BookServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,11 +9,15 @@ namespace BookShoppingUI.Controllers
     {
         private readonly IBookService bookService;
 
-        public BookController(IBookService bookService) 
+        public BookController(IBookService bookService)
         {
             this.bookService = bookService;
         }
         public IActionResult Index()
+        {
+            return View();
+        }
+        public IActionResult CreateBook()
         {
             return View();
         }
@@ -21,27 +26,36 @@ namespace BookShoppingUI.Controllers
         public IActionResult CreateBook(BookDto bookDto)
         {
             var bookCreated = bookService.CreateBook(bookDto);
-            return Ok(bookCreated);
+            //return Ok(bookCreated);
+            return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet("/book")]
-        public IActionResult GetBooks([FromQuery] int? FilterByGenreId,[FromQuery]string? FilterByBookName) 
+        [HttpGet]
+        public IActionResult GetBooks(int? FilterByGenreId, string? FilterByBookName)
         {
-            var res = bookService.GetBook(FilterByGenreId,FilterByBookName);
-            
-            return Ok(res);
+            return View(bookService.GetBook(FilterByGenreId, FilterByBookName));
         }
-        [HttpPut("/updatebook")]
-        public IActionResult UpdateBook(int id, BookDto book) 
+
+        //[HttpGet("/book")]
+        //public IActionResult GetBooks([FromQuery] int? FilterByGenreId,[FromQuery]string? FilterByBookName) 
+        //{
+        //    var res = bookService.GetBook(FilterByGenreId,FilterByBookName);
+
+        //    return RedirectToAction("Index", "Home");
+        //}
+
+        [HttpPost("/updatebook")]
+        public IActionResult UpdateBook(EditBookDto editBookDto)
         {
-            var res = bookService.UpdateBook(id, book);
-            return Ok(res);
+			var res = bookService.UpdateBook(editBookDto.id, editBookDto.bookDto);
+            return RedirectToAction("Index", "Home");
         }
+
         [HttpGet("/deletebook")]
         public IActionResult Removebook(int id) 
         {
             bookService.RemoveBook(id);
-            return RedirectToAction("Index", "Home"); ;
+            return RedirectToAction("Index", "Home");
 
         }
     }

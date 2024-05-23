@@ -1,69 +1,83 @@
 ﻿@using BookShoppingUI.DTOs.BookDTOs
+@using BookShoppingUI.Data.DTOs.BookDTOs
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
 @model List<BookReceivedDto>
 @{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
+
 }
 
 <div class="my-4">
-    <form class="row row-cols-lg-auto g-3 align-items-center">
-  <div class="col-12">
-    <label class="visually-hidden" for="inlineFormInputGroupUsername">Search</label>
-    <div class="input-group">
-      <div class="input-group-text"></div>
-      <input type="text" class="form-control" name="sTem" placeholder="Search">
-    </div>
-  </div>
+	<form class="row row-cols-lg-auto g-3 align-items-center">
+		<div class="col-12">
+			<label class="visually-hidden" for="inlineFormInputGroupUsername">Search</label>
+			<div class="input-group">
+				<div class="input-group-text"></div>
+				<input type="text" class="form-control" name="sTem" placeholder="Search">
+			</div>
+		</div>
 
-  <div class="col-12">
-    <label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
-      <select class="form-select" name="id">
-      <option selected>Choose...</option>
-      <option value="1">Advanture</option>
-      <option value="4">Horror</option>
-      <option value="3">Romance</option>
-      <option value="2">Science Fiction</option>
+		<div class="col-12">
+			<label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
+			<select class="form-select" name="id">
+				<option selected>Choose...</option>
+				<option value="1">Advanture</option>
+				<option value="4">Horror</option>
+				<option value="3">Romance</option>
+				<option value="2">Science Fiction</option>
 
-    </select>
-  </div>
+			</select>
+		</div>
 
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary">search</button>
-  </div>
-</form>
+		<div class="col-12">
+			<button type="submit" class="btn btn-primary">search</button>
+		</div>
+	</form>
 </div>
 <div class="w-100 d-flex flex-md-wrap">
 
-    @foreach (var book in Model)
-{
-        <div class="card my-2 mx-2" style="width: 18rem;">
-            @if (!string.IsNullOrEmpty(book.Image))
-            {
-                <img src="/Images/@book.Image" class="card-img-top" alt="">
-            }
-            else
-            {
-                <img src="/Images/NoImage.jpg" class="card-img-top" alt="">
+	@foreach (var book in Model)
+	{
+		<div class="card my-2 mx-2" style="width: 18rem;">
+			@if (!string.IsNullOrEmpty(book.Image))
+			{
+				<img src="/Images/@book.Image" class="card-img-top w-100 h-50" alt="">
+			}
+			else
+			{
+				<img src="/Images/NoImage.jpg" class="card-img-top w-100 h-50" alt="">
 
-            }
-            <div class="card-body">
-            <h5 class="card-title"> @book.BookName </h5>
-            <p class="card-text">
+			}
+			<div class="card-body">
+				<h5 class="card-title"> @book.BookName </h5>
+				<p class="card-text">
 
-                Genree: @book.Genre.GenreName
-                <br />
-                Author: @book.AuthorName
-                <Br />
-                Price:@book.Price
+					Genree: @book.Genre.GenreName
+					<br />
+					Author: @book.AuthorName
+					<Br />
+					Price:@book.Price
 
-            </p>
-            <a href="#" class="btn btn-primary">Add to cart</a>
+				</p>
+				@if (SignInManager.IsSignedIn(User))
+				{
+					@if (User.IsInRole("User"))
+					{
+						<a href="#" class="btn btn-primary">Add to cart</a>
+					}
+					else if (User.IsInRole("Admain"))
+					{
+						<a asp-controller="Book" asp-action="Removebook" asp-route-id="@book.id" class="btn float-end btn-danger"><i class="bi bi-trash-fill"></i> </a>
 
-                <a asp-controller="Book" asp-action="Removebook" asp-route-id="@book.id" class="btn float-end btn-danger"><i class="bi bi-trash-fill"></i> </a>
-            <button class="btn float-end"><i class="bi bi-pencil-fill"></i></button>
+						<a asp-controller="Home" asp-action="UpdateBook" asp-route-id="@book.id" class="btn float-end"><i class="bi bi-pencil-fill"></i></a>
 
-        </div>
-    </div>
-}
+					}
+				}
+
+			</div>
+		</div>
+	}
 </div>
 
 

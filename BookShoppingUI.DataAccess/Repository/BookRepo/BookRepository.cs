@@ -19,7 +19,13 @@ namespace BookShoppingUI.Repository.BookRepo
             return book;
         }
 
-        public List<Book> GetBookRepo(int? id, string? sTem)
+		public Book? GetBookById(int BookId)
+		{
+            var book = context.Book.FirstOrDefault(x => x.Id == BookId);
+            return book;
+		}
+
+		public List<Book> GetBookRepo(int? id, string? sTem)
         {
             var book = context.Book
                 .Include(x => x.Genre).AsSplitQuery().ToList();

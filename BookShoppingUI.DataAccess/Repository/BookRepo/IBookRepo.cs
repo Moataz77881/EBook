@@ -8,6 +8,7 @@ namespace BookShoppingUI.Repository.BookRepo
         public List<Book> GetBookRepo(int? id, string? sTem);
         public Book? UpdateBook(int BookId, Book book);
         public Book? RemoveBook(int BookId);
+        public Book? GetBookById(int BookId);
 
     }
 }

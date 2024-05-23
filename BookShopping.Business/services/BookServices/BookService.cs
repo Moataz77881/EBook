@@ -62,9 +62,9 @@ namespace BookShoppingUI.services.BookServices
 
             List<BookReceivedDto> dto = new List<BookReceivedDto>();
             int length;
-            string? ImageName = null;
             foreach (var element in model)
             {
+                string? ImageName = null;
 
                 if (!string.IsNullOrEmpty(element.Image))
                 {
@@ -109,7 +109,7 @@ namespace BookShoppingUI.services.BookServices
                 Image = ImagePath
             };
             var bookUpdated = bookRepo.UpdateBook(id, model);
-            //map model to BookDto
+            //map model to bookDto
 
             var dto = new BookDto
             {

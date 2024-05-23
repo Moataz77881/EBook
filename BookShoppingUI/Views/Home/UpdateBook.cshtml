@@ -1,0 +1,64 @@
+﻿@using BookShoppingUI.Data.DTOs.BookDTOs
+@model EditBookDto
+@{
+	Layout = null;
+	
+}
+
+<!doctype html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Online Book Store</title>
+	<link href="/css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+		<div class="collapse navbar-collapse justify-content-center">
+			<a class="navbar-brand" href="/Home"> Rweney's Store</a>
+		</div>
+	</nav>
+
+	<form class="col-lg-6 offset-lg-3 " method="post" asp-controller="Book", asp-action="UpdateBook">
+		
+		<div class="form-group py-4">
+			<input type="hidden" asp-for="id" class="form-control" placeholder="id">
+		</div>
+		<div class="form-group py-4">
+			<input asp-for="bookDto.BookName" class="form-control" placeholder="Book Name">
+		</div>
+		<div class="form-group pb-4 ">
+			<input asp-for="bookDto.AuthorName" class="form-control" placeholder="Author Name">
+		</div>
+
+
+		<div class="form-group pb-4 ">
+			<input asp-for="bookDto.Price" class="form-control" placeholder="Price">
+		</div>
+		<div class="col-12 pb-4">
+			<label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
+			<select class="form-select" asp-for="bookDto.GenreId">
+				<option selected>Genre Type</option>
+				<option value="1">Advanture</option>
+				<option value="4">Horror</option>
+				<option value="3">Romance</option>
+				<option value="2">Science Fiction</option>
+			</select>
+		</div>
+
+		<div class="form-group pb-4">
+			@* <label for="exampleFormControlFile1">Example file input</label> *@
+			<input type="file" class="form-control-file" id="sicknote-upload" asp-for="bookDto.UploadImage">
+		</div>
+
+		<button type="submit" class=" form-control btn btn-primary border w-25">Edit</button>
+		
+	</form>
+
+</body>
+
